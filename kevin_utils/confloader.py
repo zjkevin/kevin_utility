@@ -19,14 +19,28 @@ import yaml
 
 
 class CreateConfObj(object):
+
     """docstring for CreateConfObj"""
-    def __init__(self, conffile_lists=('sys.yaml',), conf_path="conf"):
+    def __init__(self, conffile_lists=('sys.yaml',), conf_path="conf",default_conf_path=None):
+
+        # 检查配置文件是否缺少
+        def __check_conf_files(default_conf_path,conffile_lists):
+            for f in conffile_lists:
+                if not os.path.exists(os.path.join(default_conf_path,f)):
+                    return False
+            return True
+
         self.__conffile_lists = conffile_lists
-        self.__conf_path = os.path.join(os.path.abspath("."), conf_path)
+        if default_conf_path and os.path.exists(default_conf_path) and __check_conf_files(default_conf_path,conffile_lists):
+            self.__conf_path = default_conf_path
+        else:
+            self.__conf_path = os.path.join(os.path.abspath("."), conf_path)
         self.__ip = None
         self.__port = None
         self.__obj = None
-        self.__dict = None  
+        self.__dict = None
+
+
 
         # 得到一个配置文件的对象
         def init_conf_obj():
@@ -65,7 +79,7 @@ class CreateConfObj(object):
             parser = argparse.ArgumentParser(description='Run the port application',
                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
             parser.add_argument('-i','--ip', default='0.0.0.0', help="Which IP should the http service listen to.")
-            parser.add_argument('-p','--port', type=int, default=10002, help="Which port should the http service listen to.")
+            parser.add_argument('-p','--port', type=int, default=80, help="Which port should the http service listen to.")
             parser.add_argument('-c','--conf_path', default=self.__conf_path, help="Where to find the configure files.")
             parser.add_argument('-s','--ssss',default='test',help="fixed nosetests test")
             self.__obj =  _validate(parser.parse_args())
