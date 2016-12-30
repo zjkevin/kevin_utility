@@ -12,16 +12,16 @@ from kevin_utils.exception import ServiceException
 
 
 # 密码正确返回true
-def test_ldap_cli_ok():
-    config = {"base_dn":"dc=cmccrd,dc=com","connection_options":{"receive_timeout": 5 },"server_options":{"host":'172.23.11.234',"port":389}}
-    l_cli = ldap_cli.LdapClinet(config)
-    data = l_cli.vaildate("zhangjiehz","handwit311400")
-    assert_true(data.isvaildate,"密码正确")
-    print(data.value)
-    assert_equal(data.value,VaildateValue.OKPWD)
-    print(data.user.cn)
-    print(data.user.ou)
-    print(data.user.phone)
+#def test_ldap_cli_ok():
+#    config = {"base_dn":"dc=cmccrd,dc=com","connection_options":{"receive_timeout": 5 },"server_options":{"host":'172.23.11.234',"port":389}}
+#    l_cli = ldap_cli.LdapClinet(config)
+#    data = l_cli.vaildate("zhangjiehz","yyyyyy")
+#    assert_true(data.isvaildate,"密码正确")
+#    print(data.value)
+#    assert_equal(data.value,VaildateValue.OKPWD)
+#    print(data.user.cn)
+#    print(data.user.ou)
+#    print(data.user.phone)
 
 # 密码错误 返回一个LDAPBindError
 def test_ldap_cli_invalid():
